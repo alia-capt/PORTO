@@ -1,163 +1,220 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portofolio Saya</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
-    <style>
-        body {
-            margin:0;
-            font-family:'Poppins', sans-serif;
-            background:#0e0f14;
-            color:white;
-            overflow-x:hidden;
-        }
-        header {
-            height:100vh;
-            background:linear-gradient(135deg, #1b1c25, #0e0f14);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            text-align:center;
-            position:relative;
-        }
-        header h1{
-            font-size:4rem;
-            font-weight:700;
-            letter-spacing:2px;
-        }
-        header p{
-            font-size:1.3rem;
-            opacity:0.7;
-        }
-        .btn-primary{
-            padding:15px 35px;
-            border-radius:50px;
-            border:none;
-            background:linear-gradient(45deg, #c89cf3, #7a35f7);
-            color:white;
-            font-size:1.1rem;
-            cursor:pointer;
-            margin-top:20px;
-        }
-        section{
-            padding:100px 12%;
-        }
-        h2{
-            font-size:2.5rem;
-            margin-bottom:20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portofolio Ridhoo</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+    :root {
+        --bg-dark: #0b0b0f;
+        --bg-light: #f5f5f5;
+        --text-dark: #ffffff;
+        --text-light: #111111;
+        --primary: #9b5df5;
+        --secondary: #c89cf3;
+    }
 
-        /* CARD */
-        .card{
-            background:#171821;
-            border-radius:20px;
-            padding:30px;
-            box-shadow:0 0 30px rgba(255,255,255,0.05);
-            transition:0.3s;
-        }
-        .card:hover{
-            transform:translateY(-10px);
-            box-shadow:0 0 50px rgba(255,255,255,0.15);
-        }
+    body {
+        margin:0;
+        font-family:'Poppins', sans-serif;
+        transition: background 0.5s, color 0.5s;
+        background: var(--bg-dark);
+        color: var(--text-dark);
+        overflow-x: hidden;
+    }
 
-        .projects, .writing{
-            display:grid;
-            grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
-            gap:30px;
-        }
+    body.light-theme {
+        background: var(--bg-light);
+        color: var(--text-light);
+    }
 
-        /* SOCIAL */
-        .social a{
-            font-size:2.5rem;
-            margin-right:20px;
-            color:white;
-            transition:0.3s;
-        }
-        .social a:hover{
-            color:#9b5df5;
-        }
+    header {
+        height: 100vh;
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        position:relative;
+        overflow:hidden;
+    }
 
-        footer{
-            text-align:center;
-            padding:30px;
-            background:#111117;
-            margin-top:70px;
-            opacity:0.7;
-        }
-    </style>
+    header::before {
+        content:'';
+        position:absolute;
+        width:200%;
+        height:200%;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        animation: gradientMove 20s linear infinite;
+        top:-50%; left:-50%;
+        z-index:-1;
+        filter: blur(150px);
+    }
+
+    @keyframes gradientMove {
+        0%{transform:rotate(0deg);}
+        100%{transform:rotate(360deg);}
+    }
+
+    header h1{
+        font-size:4rem;
+        font-weight:800;
+        margin-bottom:15px;
+        animation: fadeInDown 1s ease forwards;
+    }
+
+    header p{
+        font-size:1.3rem;
+        opacity:0;
+        animation: fadeInUp 1.5s ease forwards;
+    }
+
+    .btn-theme {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        border:none;
+        border-radius:30px;
+        cursor:pointer;
+        background: var(--primary);
+        color: white;
+        font-weight:bold;
+        transition: 0.3s;
+    }
+
+    .btn-theme:hover{
+        background: var(--secondary);
+    }
+
+    @keyframes fadeInDown {
+        0% {opacity:0; transform:translateY(-30px);}
+        100% {opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes fadeInUp {
+        0% {opacity:0; transform:translateY(30px);}
+        100% {opacity:1; transform:translateY(0);}
+    }
+
+    section{
+        padding:80px 10%;
+    }
+
+    h2{
+        font-size:2.5rem;
+        color: var(--primary);
+        margin-bottom:40px;
+        text-align:center;
+    }
+
+    .about{
+        display:flex;
+        gap:50px;
+        flex-wrap:wrap;
+        align-items:center;
+        animation: fadeInUp 1s ease forwards;
+    }
+
+    .about img{
+        width:350px;
+        border-radius:25px;
+        box-shadow:0 0 30px rgba(155,93,245,0.5);
+        transition:0.3s;
+    }
+
+    .about img:hover{
+        transform:scale(1.05);
+    }
+
+    .projects, .writing{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+        gap:30px;
+    }
+
+    .card{
+        background: rgba(255,255,255,0.05);
+        border-radius:25px;
+        padding:25px;
+        box-shadow:0 0 20px rgba(0,0,0,0.3);
+        transition:0.3s;
+    }
+
+    .card:hover{
+        transform:translateY(-10px);
+        box-shadow:0 0 50px var(--primary);
+    }
+
+    .social a{
+        font-size:2.5rem;
+        margin-right:20px;
+        color:white;
+        transition:0.3s;
+    }
+    .social a:hover{
+        color: var(--primary);
+    }
+
+    footer{
+        text-align:center;
+        padding:30px;
+        margin-top:50px;
+        opacity:0.8;
+    }
+</style>
 </head>
 <body>
 
-<!-- HERO -->
+<button class="btn-theme" onclick="toggleTheme()">🌙/☀️</button>
+
 <header>
-    <div>
-        <h1>Ridhoo Pratama</h1>
-        <p>Web Developer • UI/UX Enthusiast • Creative Designer</p>
-        <button class="btn-primary">Lihat Portofolio</button>
-    </div>
+    <h1>Ridhoo Pratama</h1>
+    <p>Web Developer • UI/UX Designer • Kreator Digital</p>
 </header>
 
-<!-- ABOUT -->
-<section>
-    <h2>Tentang Saya</h2>
-    <p style="max-width:700px; line-height:1.8; opacity:0.8;">
-        Saya adalah seorang pengembang web yang fokus pada pembuatan tampilan modern, mewah, dan penuh estetika. 
-        Saya percaya bahwa desain bukan hanya soal warna, tetapi tentang bagaimana pengalaman pengguna menjadi lebih berkesan.
-    </p>
+<section id="about">
+<h2>Tentang Saya</h2>
+<div class="about">
+<img src="https://via.placeholder.com/350" alt="Foto Ridhoo">
+<div>
+<p>Saya seorang developer web dan designer kreatif yang fokus membuat tampilan modern, mewah, dan interaktif. Website yang saya buat memadukan estetika visual dan pengalaman pengguna terbaik.</p>
+<div class="social">
+<a href="https://instagram.com/sembarang"><i class="fab fa-instagram"></i></a>
+<a href="https://wa.me/628123456789"><i class="fab fa-whatsapp"></i></a>
+</div>
+</div>
+</div>
 </section>
 
-<!-- PROJECTS -->
-<section>
-    <h2>Project Terbaru</h2>
-    <div class="projects">
-        <div class="card">
-            <h3>Website Modern</h3>
-            <p>Website full animasi dengan style futuristik.</p>
-        </div>
-        <div class="card">
-            <h3>Dashboard Admin</h3>
-            <p>Sistem manajemen data dengan tampilan elegan & dark mode.</p>
-        </div>
-        <div class="card">
-            <h3>Brand Landing Page</h3>
-            <p>Landing page premium dengan UI high-end.</p>
-        </div>
-    </div>
+<section id="projects">
+<h2>Project Terbaru</h2>
+<div class="projects">
+<div class="card"><h3>Website Modern</h3><p>Website full animasi dan interaktif.</p></div>
+<div class="card"><h3>Dashboard Admin</h3><p>UI futuristik dan responsive.</p></div>
+<div class="card"><h3>Landing Page Premium</h3><p>Tampilan elegan dan mewah.</p></div>
+</div>
 </section>
 
-<!-- WRITING -->
-<section>
-    <h2>Karya Tulis</h2>
-    <div class="writing">
-        <div class="card">
-            <h3>Filosofi Desain Web Modern</h3>
-            <p>Pembahasan mendalam tentang estetika desain digital.</p>
-        </div>
-        <div class="card">
-            <h3>Membangun UI yang Hidup</h3>
-            <p>Teknik membuat antarmuka yang interaktif dan elegan.</p>
-        </div>
-        <div class="card">
-            <h3>Future of Creative Web</h3>
-            <p>Prediksi perkembangan desain web masa depan.</p>
-        </div>
-    </div>
-</section>
-
-<!-- SOCIAL MEDIA -->
-<section>
-    <h2>Social Media</h2>
-    <div class="social">
-        <a href="https://instagram.com/contoh"><i class="ri-instagram-line"></i></a>
-        <a href="https://wa.me/628123456789"><i class="ri-whatsapp-line"></i></a>
-    </div>
+<section id="writing">
+<h2>Karya Tulis</h2>
+<div class="writing">
+<div class="card"><h3>Filosofi Desain Web</h3><p>Analisis estetika desain modern.</p></div>
+<div class="card"><h3>Membangun UI Interaktif</h3><p>Teknik membuat antarmuka elegan.</p></div>
+<div class="card"><h3>Future of Creative Web</h3><p>Prediksi tren web masa depan.</p></div>
+</div>
 </section>
 
 <footer>
-    © 2025 Portofolio Ridhoo — Dibuat dengan penuh kreativitas.
+© 2025 Ridhoo Pratama — Portofolio Modern & Interaktif.
 </footer>
+
+<script>
+function toggleTheme(){
+    document.body.classList.toggle('light-theme');
+}
+</script>
 
 </body>
 </html>
