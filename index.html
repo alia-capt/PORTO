@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio Keren</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <style>
         * {
             margin: 0;
@@ -16,45 +17,62 @@
             color: white;
             overflow-x: hidden;
         }
+        /* HERO SECTION */
         header {
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            background: linear-gradient(135deg, #0e0e0e, #222222);
+            background: linear-gradient(135deg, #0e0e0e, #1a001a);
             text-align: center;
             padding: 20px;
+            position: relative;
+        }
+        .floating-circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,0,120,0.4), transparent);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-40px); }
+            100% { transform: translateY(0px); }
         }
         header h1 {
-            font-size: 60px;
-            font-weight: 700;
+            font-size: 70px;
+            font-weight: 800;
             margin-bottom: 15px;
-            text-shadow: 0 0 20px rgba(255,255,255,0.4);
+            text-shadow: 0 0 40px rgba(255,0,120,0.6);
         }
         header p {
-            font-size: 20px;
-            max-width: 600px;
+            font-size: 22px;
+            max-width: 700px;
             opacity: 0.8;
         }
         .btn {
             margin-top: 30px;
-            padding: 12px 30px;
+            padding: 12px 40px;
             background: #ff0077;
             color: white;
             text-decoration: none;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 20px;
             transition: 0.3s;
         }
         .btn:hover {
             background: #ff3399;
+            transform: scale(1.05);
         }
+        /* ABOUT */
         section {
             padding: 80px 10%;
         }
         h2 {
-            font-size: 40px;
+            font-size: 50px;
             margin-bottom: 20px;
             color: #ff0077;
         }
@@ -65,28 +83,82 @@
             flex-wrap: wrap;
         }
         .about img {
-            width: 300px;
+            width: 350px;
             border-radius: 20px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            box-shadow: 0 0 30px rgba(255,0,120,0.4);
         }
+        .about p {
+            font-size: 18px;
+            line-height: 1.7;
+        }
+        /* SKILLS */
+        .skills {
+            margin-top: 50px;
+        }
+        .skill-bar {
+            margin-bottom: 20px;
+        }
+        .skill-bar span {
+            font-size: 18px;
+        }
+        .bar {
+            width: 100%;
+            height: 12px;
+            background: #333;
+            border-radius: 10px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: #ff0077;
+            width: 0;
+            animation: fill 2s forwards;
+        }
+        @keyframes fill {
+            from { width: 0; }
+            to { width: var(--progress); }
+        }
+        /* PROJECTS */
         .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
         .card {
             background: #1a1a1a;
             padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 20px rgba(255,0,120,0.2);
             transition: 0.3s;
         }
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 40px rgba(255,0,120,0.4);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 40px rgba(255,0,120,0.5);
         }
-        .contact {
-            text-align: center;
+        /* CONTACT */
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background: #333;
+            color: white;
+            font-size: 16px;
+        }
+        .contact button {
+            padding: 12px 40px;
+            background: #ff0077;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            color: white;
+            transition: 0.3s;
+        }
+        .contact button:hover {
+            background: #ff3399;
         }
         footer {
             padding: 20px;
@@ -99,16 +171,33 @@
 </head>
 <body>
     <header>
+        <div class="floating-circle" style="top: 10%; left: 10%;"></div>
+        <div class="floating-circle" style="bottom: 10%; right: 10%; animation-delay: 1s;"></div>
         <h1>Nama Kamu</h1>
-        <p>Web Developer | Designer | Creative Thinker</p>
+        <p>Web Developer | UI/UX Designer | Creative Storyteller</p>
         <a href="#projects" class="btn">Lihat Proyek</a>
     </header>
 
     <section class="about" id="about">
-        <img src="https://via.placeholder.com/300" alt="Foto Kamu" />
+        <img src="https://via.placeholder.com/350" alt="Foto Kamu" />
         <div>
             <h2>Tentang Saya</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae justo at ex gravida ultricies. Aliquam erat volutpat. Cras non dui vel velit varius consectetur. Integer feugiat turpis non magna facilisis, ac fermentum augue suscipit.</p>
+            <p>Saya adalah seorang pengembang web yang menciptakan pengalaman digital modern, elegan, dan penuh estetika. Dengan keterampilan dalam desain dan pengembangan, saya membuat website yang tidak hanya berfungsi, tetapi juga memberikan kesan mendalam bagi setiap pengunjung.</p>
+
+            <div class="skills">
+                <div class="skill-bar">
+                    <span>HTML / CSS</span>
+                    <div class="bar"><div class="bar-fill" style="--progress: 95%;"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <span>JavaScript</span>
+                    <div class="bar"><div class="bar-fill" style="--progress: 90%;"></div></div>
+                </div>
+                <div class="skill-bar">
+                    <span>UI/UX Design</span>
+                    <div class="bar"><div class="bar-fill" style="--progress: 85%;"></div></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -116,28 +205,30 @@
         <h2>Proyek Saya</h2>
         <div class="projects">
             <div class="card">
-                <h3>Aplikasi Web 1</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>Aplikasi Web Profesional</h3>
+                <p>Membangun aplikasi modern dengan desain premium dan fungsionalitas lengkap.</p>
             </div>
             <div class="card">
-                <h3>Aplikasi Web 2</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>Dashboard Admin</h3>
+                <p>UI dashboard interaktif yang elegan dan mudah digunakan.</p>
             </div>
             <div class="card">
-                <h3>Aplikasi Web 3</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>Landing Page Bisnis</h3>
+                <p>Website promosi super premium dengan animasi dan estetika tinggi.</p>
             </div>
         </div>
     </section>
 
     <section class="contact" id="contact">
-        <h2>Kontak</h2>
-        <p>Email: nama@email.com</p>
-        <p>Instagram: @username</p>
+        <h2>Kontak Saya</h2>
+        <input type="text" placeholder="Nama Anda" />
+        <input type="email" placeholder="Email" />
+        <textarea rows="5" placeholder="Pesan"></textarea>
+        <button>Kirim Pesan</button>
     </section>
 
     <footer>
-        <p>© 2025 Your Name. All Rights Reserved.</p>
+        <p>© 2025 Nama Kamu. All Rights Reserved.</p>
     </footer>
 </body>
 </html>
