@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pribadi blog · modern</title>
-  <!-- Font Awesome 6 (free) -->
+  <title>pribadi blog · puisi & modern</title>
+  <!-- Font Awesome 6 (free) + Google Fonts untuk kesan sastra -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s;
     }
 
     /* light theme (default) */
@@ -28,6 +29,8 @@
       --glow: rgba(139, 92, 246, 0.2);
       --icon-bg: #f1f5f9;
       --navbar-bg: rgba(255, 255, 255, 0.72);
+      --gold: #b45309;
+      --book-bg: #fef9e7;
     }
 
     body.dark {
@@ -42,6 +45,8 @@
       --glow: rgba(167, 139, 250, 0.25);
       --icon-bg: #2d3748;
       --navbar-bg: rgba(15, 23, 42, 0.8);
+      --gold: #fbbf24;
+      --book-bg: #2b2b36;
     }
 
     body {
@@ -49,9 +54,66 @@
       color: var(--text-primary);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* blur navbar */
+    /* dekorasi animasi latar (partikel / floating) */
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .shape {
+      position: absolute;
+      background: var(--accent);
+      opacity: 0.03;
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: floatShape 20s infinite ease-in-out;
+    }
+
+    .shape1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: -100px;
+      background: #c084fc;
+      animation-duration: 25s;
+    }
+
+    .shape2 {
+      width: 400px;
+      height: 400px;
+      bottom: 0%;
+      right: -100px;
+      background: #38bdf8;
+      animation-duration: 30s;
+      animation-delay: -5s;
+    }
+
+    .shape3 {
+      width: 200px;
+      height: 200px;
+      top: 40%;
+      right: 20%;
+      background: #f472b6;
+      animation-duration: 18s;
+      animation-delay: -2s;
+    }
+
+    @keyframes floatShape {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 40px) scale(0.9); }
+    }
+
+    /* navbar */
     .navbar {
       position: sticky;
       top: 0;
@@ -79,6 +141,12 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      animation: logoGlow 3s infinite alternate;
+    }
+
+    @keyframes logoGlow {
+      0% { filter: drop-shadow(0 0 2px var(--glow)); }
+      100% { filter: drop-shadow(0 0 10px var(--accent)); }
     }
 
     .theme-toggle {
@@ -101,17 +169,19 @@
 
     .theme-toggle:hover {
       border-color: var(--accent);
-      transform: scale(1.02);
+      transform: scale(1.02) rotate(2deg);
     }
 
     /* main container */
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 2.5rem auto 3rem;
       padding: 0 1.8rem;
+      position: relative;
+      z-index: 2;
     }
 
-    /* profile card with photo and intro */
+    /* profile card */
     .profile-card {
       background: var(--surface);
       border-radius: 2.5rem;
@@ -125,6 +195,26 @@
       gap: 2.5rem;
       transition: all 0.3s;
       animation: floatIn 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: shine 8s infinite;
+    }
+
+    @keyframes shine {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-20px, 20px) scale(1.2); }
     }
 
     .avatar-frame {
@@ -137,10 +227,11 @@
       box-shadow: 0 20px 30px -8px var(--accent);
       transition: transform 0.5s ease;
       animation: softPulse 4s infinite ease-in-out;
+      position: relative;
     }
 
     .avatar-frame:hover {
-      transform: scale(1.03) rotate(1deg);
+      transform: scale(1.05) rotate(3deg);
     }
 
     .avatar-frame img {
@@ -149,7 +240,6 @@
       object-fit: cover;
       border-radius: 50%;
       border: 3px solid var(--surface);
-      background: #cbd5e1; /* fallback */
     }
 
     .intro h1 {
@@ -166,10 +256,8 @@
     .intro p {
       color: var(--text-secondary);
       font-size: 1.2rem;
-      max-width: 500px;
     }
 
-    /* social bar (WA & IG) */
     .social-links {
       display: flex;
       gap: 1.2rem;
@@ -200,14 +288,16 @@
       box-shadow: 0 16px 20px -8px var(--accent);
     }
 
-    /* featured blog posts with animation */
+    /* section titles */
     .section-title {
       font-size: 2rem;
       font-weight: 700;
-      margin: 2.5rem 0 1.5rem;
+      margin: 3rem 0 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      border-left: 6px solid var(--accent);
+      padding-left: 1rem;
     }
 
     .section-title i {
@@ -215,6 +305,7 @@
       font-size: 2rem;
     }
 
+    /* blog grid */
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -288,7 +379,126 @@
       margin-right: 0.4rem;
     }
 
-    /* about section */
+    /* GALLERY PUISI MODEL BUKU (feature utama) */
+    .poetry-section {
+      margin: 4rem 0;
+    }
+
+    .poetry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      perspective: 1200px;
+    }
+
+    .poem-book {
+      background: var(--book-bg);
+      border-radius: 16px 4px 4px 16px;  /* asimetris seperti buku */
+      padding: 2rem 1.5rem;
+      box-shadow: 
+        8px 8px 20px rgba(0,0,0,0.1),
+        -2px 0 0 rgba(0,0,0,0.03) inset;
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--accent);  /* seperti punggung buku */
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: bookRise 0.9s ease-out backwards;
+      position: relative;
+      transform-style: preserve-3d;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .poem-book:nth-child(1) { animation-delay: 0.1s; }
+    .poem-book:nth-child(2) { animation-delay: 0.2s; }
+    .poem-book:nth-child(3) { animation-delay: 0.3s; }
+
+    .poem-book:hover {
+      transform: translateY(-12px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 
+        18px 18px 30px rgba(0,0,0,0.15),
+        -4px 0 8px rgba(0,0,0,0.05) inset;
+      border-left-width: 8px;
+    }
+
+    /* efek halaman buku (garis tipis) */
+    .poem-book::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--accent-soft), transparent);
+      opacity: 0.4;
+    }
+
+    .poem-book::after {
+      content: '“';
+      position: absolute;
+      bottom: -10px;
+      right: 20px;
+      font-size: 6rem;
+      font-family: serif;
+      color: var(--accent);
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .poem-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--accent);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+      border-bottom: 2px dotted var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .poem-date {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .poem-content {
+      font-size: 1rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      font-style: italic;
+      quotes: "“" "”" "‘" "’";
+      position: relative;
+      z-index: 2;
+    }
+
+    .poem-content p {
+      margin-bottom: 0.6rem;
+    }
+
+    .poem-content p::before {
+      content: '“';
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0.5;
+      margin-right: 2px;
+    }
+
+    .poem-content p:last-of-type::after {
+      content: '”';
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0.5;
+      margin-left: 2px;
+    }
+
+    @keyframes bookRise {
+      0% { opacity: 0; transform: translateY(60px) rotateX(10deg); }
+      100% { opacity: 1; transform: translateY(0) rotateX(0); }
+    }
+
+    /* about */
     .about-card {
       background: var(--surface);
       border-radius: 2rem;
@@ -322,9 +532,11 @@
       margin-top: 4rem;
       color: var(--text-secondary);
       font-size: 0.95rem;
+      position: relative;
+      z-index: 2;
     }
 
-    /* animations */
+    /* animasi dasar */
     @keyframes floatIn {
       0% { opacity: 0; transform: translateY(30px) scale(0.98); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -341,12 +553,6 @@
       100% { box-shadow: 0 20px 30px -8px var(--accent); }
     }
 
-    /* untuk foto: ganti src dengan file/foto kamu */
-    .avatar-frame img {
-      src: url('https://placekitten.com/300/300'); /* temporary, ganti dengan path foto asli */
-    }
-
-    /* small screens */
     @media (max-width: 650px) {
       .profile-card {
         justify-content: center;
@@ -354,33 +560,39 @@
       }
       .intro h1 { font-size: 2.2rem; }
       .social-links { justify-content: center; }
+      .poem-book { margin-bottom: 1rem; }
     }
   </style>
 </head>
 <body class="">
-  <!-- navbar with theme toggle -->
+  <!-- decorative floating shapes -->
+  <div class="floating-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+
   <nav class="navbar">
     <div class="nav-container">
       <span class="logo">◈ pribadiblog</span>
-      <div class="theme-toggle" id="themeToggle" aria-label="Ganti tema">
+      <div class="theme-toggle" id="themeToggle">
         <i class="fas fa-sun" id="sunIcon"></i>
         <i class="fas fa-moon" id="moonIcon"></i>
-        <span style="font-weight: 500; font-size: 0.9rem;">Tema</span>
+        <span style="font-weight: 500;">Tema</span>
       </div>
     </div>
   </nav>
 
   <main class="container">
-    <!-- profile card + foto + WA IG -->
+    <!-- profile card -->
     <div class="profile-card">
       <div class="avatar-frame">
-        <!-- GANTI DENGAN FOTO KAMU: cukup ganti src dengan file gambar kamu (jpg/png) -->
+        <!-- GANTI DENGAN FOTO KAMU -->
         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&auto=format" alt="foto profile">
       </div>
       <div class="intro">
         <h1>Alex Pribadi</h1>
-        <p>Menulis tentang teknologi, perjalanan, dan kehidupan. Mari terhubung.</p>
-        <!-- social media: WA dan IG (ganti dengan username mu) -->
+        <p>Menulis puisi, cerita, dan catatan teknologi.</p>
         <div class="social-links">
           <a href="https://wa.me/6281234567890" class="social-icon" target="_blank" title="WhatsApp">
             <i class="fab fa-whatsapp"></i>
@@ -388,74 +600,109 @@
           <a href="https://instagram.com/usernamekamu" class="social-icon" target="_blank" title="Instagram">
             <i class="fab fa-instagram"></i>
           </a>
-          <!-- boleh tambah, tapi sesuai permintaan WA & IG sudah cukup -->
         </div>
-        <div style="margin-top: 0.8rem; font-size: 0.9rem; color: var(--text-secondary);">
-          <i class="fas fa-map-pin" style="margin-right: 4px;"></i> @usernamekamu · wa.me/62812...
+        <div style="margin-top: 0.8rem; font-size: 0.9rem; opacity: 0.7;">
+          <i class="fas fa-feather-alt" style="margin-right: 6px;"></i> iga/wa: @usernamekamu
         </div>
       </div>
     </div>
 
-    <!-- blog posts section -->
+    <!-- blog posts -->
     <div class="section-title">
       <i class="fas fa-pen-fancy"></i>
-      <span>kiriman terbaru</span>
+      <span>tulisan terbaru</span>
     </div>
 
     <div class="blog-grid">
-      <!-- card 1 -->
       <article class="blog-card">
         <div class="blog-date">📅 12 Maret 2025</div>
         <h3>Belajar desain sistem di figma</h3>
-        <p>Bagaimana membangun design system yang scalable dan konsisten untuk startup.</p>
+        <p>Bagaimana membangun design system yang scalable dan konsisten.</p>
         <span class="tag">desain</span>
         <span class="tag">figma</span>
       </article>
-      <!-- card 2 -->
       <article class="blog-card">
         <div class="blog-date">📅 28 Februari 2025</div>
         <h3>Menikmati sunyi di pantai selatan</h3>
-        <p>Cerita perjalanan dan refleksi diri saat menyaksikan matahari terbenam.</p>
+        <p>Cerita perjalanan dan refleksi diri saat matahari terbenam.</p>
         <span class="tag">travel</span>
         <span class="tag">life</span>
       </article>
-      <!-- card 3 -->
       <article class="blog-card">
         <div class="blog-date">📅 5 Februari 2025</div>
         <h3>Dark mode dengan CSS variable</h3>
-        <p>Implementasi tema gelap/terang yang mulus tanpa javascript ribet.</p>
+        <p>Implementasi tema gelap/terang yang mulus.</p>
         <span class="tag">coding</span>
         <span class="tag">css</span>
       </article>
     </div>
 
-    <!-- little about me / welcome -->
+    <!-- GALLERY PUISI MODEL BUKU (FITUR BARU KEREN) -->
+    <div class="poetry-section">
+      <div class="section-title">
+        <i class="fas fa-book-open"></i>
+        <span>karya puisi · buku kecil</span>
+      </div>
+      <div class="poetry-grid">
+        <!-- puisi 1 -->
+        <div class="poem-book">
+          <div class="poem-title">senja di batas pier</div>
+          <div class="poem-date">februari, 2025</div>
+          <div class="poem-content">
+            <p>langit mengaduk jingga dan mimpi,</p>
+            <p>ombak menulis puisi di pasir basah.</p>
+            <p>kau duduk di kursi usang,</p>
+            <p>menanti kapal yang tak pernah tiba.</p>
+          </div>
+        </div>
+        <!-- puisi 2 -->
+        <div class="poem-book">
+          <div class="poem-title">tentang secangkir kopi</div>
+          <div class="poem-date">januari, 2025</div>
+          <div class="poem-content">
+            <p>pahit yang setia menemani pagi,</p>
+            <p>aromanya merambat sunyi.</p>
+            <p>kau tulis surat pada asap,</p>
+            <p>tentang rasa yang tak sempat diucapi.</p>
+          </div>
+        </div>
+        <!-- puisi 3 -->
+        <div class="poem-book">
+          <div class="poem-title">hujan di ibu kota</div>
+          <div class="poem-date">desember, 2024</div>
+          <div class="poem-content">
+            <p>riak genangan menari di trotoar,</p>
+            <p>deru kendaraan mereda sejenak.</p>
+            <p>kita berteduh dalam diam,</p>
+            <p>menghitung rindu yang basah dan lekat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- about me -->
     <div class="about-card">
-      <h2><i class="fas fa-star" style="color: var(--accent);"></i> tentang saya</h2>
-      <p>Saya seorang penulis dan pengembang web yang tinggal di Bali. Suka eksplorasi teknologi baru, berbagi cerita, dan ngopi sambil ngoding. Di blog ini saya menulis bebas seputar teknologi, desain, serta catatan perjalanan. Silakan kenalan lewat WA atau IG di atas — pasti saya reply 😊</p>
+      <h2><i class="fas fa-feather-alt" style="color: var(--accent);"></i> tentang pena ini</h2>
+      <p>Seorang perantau kata yang tinggal di Bali. Menulis puisi sejak 2018, kadang teknologi, kadang hati. Buku puisi pertama "Peta Rindu" terbit 2023. Di sini saya menulis bebas — kadang sajak, kadang kode. Silakan ngobrol lewat WA/IG, saya balas dengan puisi pendek 😊</p>
     </div>
   </main>
 
   <footer class="footer">
-    <p>© 2025 pribadiblog — dibuat dengan <i class="fas fa-heart" style="color: #f43f5e;"></i> dan animasi modern</p>
+    <p>© 2025 pribadiblog — puisi dan imajinasi <i class="fas fa-heart" style="color: #f43f5e;"></i></p>
   </footer>
 
-  <!-- javascript for theme toggle + dark/light mode -->
+  <!-- theme toggle script -->
   <script>
     (function() {
       const themeToggle = document.getElementById('themeToggle');
-      const sunIcon = document.getElementById('sunIcon');
-      const moonIcon = document.getElementById('moonIcon');
       const body = document.body;
 
-      // cek preferensi tersimpan
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'dark') {
         body.classList.add('dark');
       } else if (savedTheme === 'light') {
         body.classList.remove('dark');
       } else {
-        // jika tidak ada, deteksi sistem (optional, default light)
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
           body.classList.add('dark');
           localStorage.setItem('theme', 'dark');
@@ -465,8 +712,7 @@
         }
       }
 
-      // fungsi toggle tema
-      function toggleTheme() {
+      themeToggle.addEventListener('click', () => {
         if (body.classList.contains('dark')) {
           body.classList.remove('dark');
           localStorage.setItem('theme', 'light');
@@ -474,20 +720,11 @@
           body.classList.add('dark');
           localStorage.setItem('theme', 'dark');
         }
-        // animasi subtle saat toggle (opsional)
-      }
+      });
 
-      themeToggle.addEventListener('click', toggleTheme);
-
-      // ubah gambar/foto asli: saran, ganti src dengan gambar kamu.
-      // jika ingin foto lebih personal, ganti attribute src img di dalam .avatar-frame
-      // misalnya dengan gambar lokal: "fotosaya.jpg"
-      // contoh jika ada file di folder yg sama: 
-      // document.querySelector('.avatar-frame img').src = 'foto_saya.jpg'; 
-      // tapi user bisa langsung ganti di HTML baris 171.
+      // ganti foto dan link ig/wa di html sesuai user (static bisa diedit langsung)
     })();
   </script>
-  <!-- sedikit tambahan supaya animasi smooth, foto bisa diganti langsung di HTML (line 171) -->
-  <!-- dan untuk WA/IG link silakan ganti href di line 180-183 -->
+  <!-- petunjuk: ganti foto di line 235, link wa/ig di line 246-249, dan isi puisi sesuai karyamu -->
 </body>
 </html>
