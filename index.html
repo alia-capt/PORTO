@@ -31,6 +31,9 @@
       --navbar-bg: rgba(255, 255, 255, 0.72);
       --gold: #b45309;
       --book-bg: #fef9e7;
+      --star-active: #fbbf24;
+      --star-inactive: #cbd5e1;
+      --message-bg: #f8fafc;
     }
 
     body.dark {
@@ -47,6 +50,9 @@
       --navbar-bg: rgba(15, 23, 42, 0.8);
       --gold: #fbbf24;
       --book-bg: #2b2b36;
+      --star-active: #fbbf24;
+      --star-inactive: #4b5563;
+      --message-bg: #1e293b;
     }
 
     body {
@@ -305,81 +311,7 @@
       font-size: 2rem;
     }
 
-    /* blog grid */
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 2rem;
-    }
-
-    .blog-card {
-      background: var(--surface);
-      border-radius: 2rem;
-      padding: 1.8rem 1.5rem;
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1);
-      transition: all 0.25s;
-      animation: cardGlide 0.7s ease backwards;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .blog-card:nth-child(1) { animation-delay: 0.1s; }
-    .blog-card:nth-child(2) { animation-delay: 0.2s; }
-    .blog-card:nth-child(3) { animation-delay: 0.3s; }
-
-    .blog-card:hover {
-      transform: translateY(-12px) scale(1.01);
-      border-color: var(--accent);
-      box-shadow: 0 30px 40px -16px var(--accent);
-    }
-
-    .blog-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, var(--accent-soft), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      pointer-events: none;
-      border-radius: 2rem;
-    }
-
-    .blog-card:hover::after {
-      opacity: 0.25;
-    }
-
-    .blog-date {
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .blog-card h3 {
-      font-size: 1.5rem;
-      margin: 0.5rem 0 0.8rem;
-      font-weight: 700;
-    }
-
-    .blog-card p {
-      color: var(--text-secondary);
-      margin-bottom: 1.2rem;
-    }
-
-    .tag {
-      display: inline-block;
-      background: var(--accent-soft);
-      padding: 0.3rem 1rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--accent);
-      margin-right: 0.4rem;
-    }
-
-    /* GALLERY PUISI MODEL BUKU (feature utama) */
+    /* GALLERY PUISI MODEL BUKU */
     .poetry-section {
       margin: 4rem 0;
     }
@@ -393,13 +325,13 @@
 
     .poem-book {
       background: var(--book-bg);
-      border-radius: 16px 4px 4px 16px;  /* asimetris seperti buku */
+      border-radius: 16px 4px 4px 16px;
       padding: 2rem 1.5rem;
       box-shadow: 
         8px 8px 20px rgba(0,0,0,0.1),
         -2px 0 0 rgba(0,0,0,0.03) inset;
       border: 1px solid var(--border);
-      border-left: 6px solid var(--accent);  /* seperti punggung buku */
+      border-left: 6px solid var(--accent);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       animation: bookRise 0.9s ease-out backwards;
       position: relative;
@@ -419,7 +351,6 @@
       border-left-width: 8px;
     }
 
-    /* efek halaman buku (garis tipis) */
     .poem-book::before {
       content: '';
       position: absolute;
@@ -498,6 +429,490 @@
       100% { opacity: 1; transform: translateY(0) rotateX(0); }
     }
 
+    /* RATING SECTION */
+    .rating-section {
+      background: var(--surface);
+      border-radius: 2rem;
+      padding: 2rem;
+      margin: 3rem 0;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      animation: floatIn 0.8s 0.3s backwards;
+    }
+
+    .rating-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      color: var(--accent);
+    }
+
+    .rating-stars {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .star {
+      font-size: 3rem;
+      cursor: pointer;
+      color: var(--star-inactive);
+      transition: all 0.2s ease;
+    }
+
+    .star:hover {
+      transform: scale(1.2);
+    }
+
+    .star.active {
+      color: var(--star-active);
+      text-shadow: 0 0 20px var(--star-active);
+    }
+
+    .rating-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .average-rating {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .total-votes {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    .rating-bars {
+      max-width: 400px;
+      margin: 2rem auto;
+    }
+
+    .rating-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.8rem 0;
+    }
+
+    .bar-label {
+      width: 60px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .bar-container {
+      flex: 1;
+      height: 10px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #fbbf24);
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .bar-percent {
+      width: 50px;
+      text-align: right;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .rating-message {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      background: var(--accent-soft);
+      padding: 0.8rem;
+      border-radius: 50px;
+      display: inline-block;
+    }
+
+    .rating-message i {
+      color: var(--accent);
+      margin-right: 0.5rem;
+    }
+
+    .rating-reset {
+      margin-top: 1rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .rating-reset:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    /* ANONYMOUS MESSAGES SECTION - PRIVATE VERSION */
+    .messages-section {
+      margin: 4rem 0;
+    }
+
+    .message-input-card {
+      background: var(--surface);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .message-input-card::before {
+      content: '✉️';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      font-size: 8rem;
+      opacity: 0.03;
+      transform: rotate(15deg);
+      pointer-events: none;
+    }
+
+    .message-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .message-form textarea {
+      background: var(--message-bg);
+      border: 2px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      font-size: 1rem;
+      color: var(--text-primary);
+      resize: vertical;
+      min-height: 120px;
+      font-family: 'Playfair Display', serif;
+      transition: all 0.3s;
+    }
+
+    .message-form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--glow);
+    }
+
+    .message-form textarea::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    .message-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-send {
+      background: linear-gradient(135deg, var(--accent), #c084fc);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: all 0.3s;
+      box-shadow: 0 8px 16px var(--glow);
+    }
+
+    .btn-send:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 24px var(--glow);
+    }
+
+    .btn-send i {
+      font-size: 1.2rem;
+    }
+
+    .message-counter {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .message-counter i {
+      color: var(--accent);
+    }
+
+    /* PRIVATE MESSAGES VIEW - Hanya muncul setelah password benar */
+    .private-view {
+      background: var(--surface);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+    }
+
+    .password-prompt {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .password-prompt i {
+      font-size: 3rem;
+      color: var(--accent);
+      opacity: 0.5;
+      margin-bottom: 1rem;
+    }
+
+    .password-prompt h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .password-input-group {
+      display: flex;
+      max-width: 400px;
+      margin: 1.5rem auto;
+      gap: 0.5rem;
+    }
+
+    .password-input-group input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      background: var(--message-bg);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .password-input-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .password-input-group button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0 2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .password-input-group button:hover {
+      transform: scale(1.05);
+      background: var(--accent);
+      filter: brightness(1.1);
+    }
+
+    .messages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .message-card {
+      background: var(--message-bg);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      animation: messagePop 0.5s ease backwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .message-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 30px -12px var(--accent);
+    }
+
+    .message-card::after {
+      content: '”';
+      position: absolute;
+      bottom: -10px;
+      right: 15px;
+      font-size: 5rem;
+      font-family: serif;
+      color: var(--accent);
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px dotted var(--border);
+    }
+
+    .message-author {
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .message-author i {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .message-date {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: var(--accent-soft);
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+    }
+
+    .message-content {
+      font-size: 1rem;
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      margin-bottom: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .message-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .delete-message {
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      opacity: 0.5;
+    }
+
+    .delete-message:hover {
+      color: #ef4444;
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .empty-messages {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border-radius: 2rem;
+      border: 2px dashed var(--border);
+      grid-column: 1 / -1;
+    }
+
+    .empty-messages i {
+      font-size: 3rem;
+      color: var(--accent);
+      opacity: 0.3;
+      margin-bottom: 1rem;
+    }
+
+    .message-stats {
+      background: var(--accent-soft);
+      padding: 1rem;
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .message-stats span {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .message-stats i {
+      color: var(--accent);
+      margin-right: 0.5rem;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    @keyframes messagePop {
+      0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .message-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 10px 30px var(--glow);
+      animation: slideIn 0.3s ease;
+      z-index: 1000;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
     /* about */
     .about-card {
       background: var(--surface);
@@ -542,11 +957,6 @@
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    @keyframes cardGlide {
-      0% { opacity: 0; transform: translateY(40px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
     @keyframes softPulse {
       0% { box-shadow: 0 20px 30px -8px var(--accent); }
       50% { box-shadow: 0 25px 40px -6px var(--accent); }
@@ -561,6 +971,9 @@
       .intro h1 { font-size: 2.2rem; }
       .social-links { justify-content: center; }
       .poem-book { margin-bottom: 1rem; }
+      .rating-stars { gap: 0.5rem; }
+      .star { font-size: 2.5rem; }
+      .messages-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -607,7 +1020,7 @@
       </div>
     </div>
 
-       <!-- GALLERY PUISI MODEL BUKU (FITUR BARU KEREN) -->
+    <!-- GALLERY PUISI MODEL BUKU -->
     <div class="poetry-section">
       <div class="section-title">
         <i class="fas fa-book-open"></i>
@@ -650,10 +1063,133 @@
       </div>
     </div>
 
+    <!-- RATING SECTION -->
+    <div class="rating-section">
+      <div class="rating-title">
+        <i class="fas fa-star"></i>
+        <span>Beri Rating untuk Karyaku</span>
+        <i class="fas fa-star"></i>
+      </div>
+      
+      <!-- Bintang Rating -->
+      <div class="rating-stars" id="ratingStars">
+        <i class="far fa-star star" data-rating="1"></i>
+        <i class="far fa-star star" data-rating="2"></i>
+        <i class="far fa-star star" data-rating="3"></i>
+        <i class="far fa-star star" data-rating="4"></i>
+        <i class="far fa-star star" data-rating="5"></i>
+      </div>
+
+      <!-- Statistik Rating -->
+      <div class="rating-stats">
+        <div>
+          <div class="average-rating" id="averageRating">4.2</div>
+          <div class="total-votes" id="totalVotes">dari 128 penilai</div>
+        </div>
+        <div class="rating-bars">
+          <div class="rating-bar-item">
+            <span class="bar-label">5 ★</span>
+            <div class="bar-container">
+              <div class="bar-fill" id="bar5" style="width: 75%"></div>
+            </div>
+            <span class="bar-percent" id="percent5">75%</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="bar-label">4 ★</span>
+            <div class="bar-container">
+              <div class="bar-fill" id="bar4" style="width: 15%"></div>
+            </div>
+            <span class="bar-percent" id="percent4">15%</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="bar-label">3 ★</span>
+            <div class="bar-container">
+              <div class="bar-fill" id="bar3" style="width: 6%"></div>
+            </div>
+            <span class="bar-percent" id="percent3">6%</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="bar-label">2 ★</span>
+            <div class="bar-container">
+              <div class="bar-fill" id="bar2" style="width: 3%"></div>
+            </div>
+            <span class="bar-percent" id="percent2">3%</span>
+          </div>
+          <div class="rating-bar-item">
+            <span class="bar-label">1 ★</span>
+            <div class="bar-container">
+              <div class="bar-fill" id="bar1" style="width: 1%"></div>
+            </div>
+            <span class="bar-percent" id="percent1">1%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rating-message" id="ratingMessage">
+        <i class="fas fa-heart"></i>
+        <span id="messageText">Terima kasih sudah membaca puisi-puisiku!</span>
+      </div>
+
+      <button class="rating-reset" id="resetRating">
+        <i class="fas fa-redo-alt"></i> Reset Rating
+      </button>
+    </div>
+
+    <!-- ANONYMOUS MESSAGES SECTION - PRIVATE VERSION -->
+    <div class="messages-section">
+      <div class="section-title">
+        <i class="fas fa-envelope-open-text"></i>
+        <span>kirim pesan rahasia (hanya aku yang bisa baca)</span>
+      </div>
+
+      <!-- Form Input Pesan (Publik) -->
+      <div class="message-input-card">
+        <form class="message-form" id="messageForm">
+          <textarea 
+            id="messageInput" 
+            placeholder="Tulis pesan rahasiamu di sini... (hanya pemilik blog yang bisa membaca)"
+            maxlength="500"
+            required
+          ></textarea>
+          <div class="message-actions">
+            <button type="submit" class="btn-send">
+              <i class="fas fa-paper-plane"></i>
+              Kirim Pesan Rahasia
+            </button>
+            <div class="message-counter">
+              <i class="fas fa-feather-alt"></i>
+              <span id="charCount">0/500</span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Private View (Hanya untuk Pemilik) -->
+      <div class="private-view" id="privateView">
+        <div class="password-prompt" id="passwordPrompt">
+          <i class="fas fa-lock"></i>
+          <h3>Area Pesan Rahasia</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">Masukkan password untuk melihat pesan dari pengunjung</p>
+          <div class="password-input-group">
+            <input type="password" id="passwordInput" placeholder="Password..." onkeypress="if(event.key==='Enter') checkPassword()">
+            <button onclick="checkPassword()">Buka</button>
+          </div>
+        </div>
+
+        <div id="messagesArea" style="display: none;">
+          <div class="message-stats">
+            <span><i class="fas fa-envelope"></i> Total Pesan: <span id="totalMessages">0</span></span>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Kunci Lagi</button>
+          </div>
+          <div class="messages-grid" id="messagesGrid"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- about me -->
     <div class="about-card">
       <h2><i class="fas fa-feather-alt" style="color: var(--accent);"></i> tentang musafir </h2>
-      <p>Seorang perantau kata yang tinggal di bumi. Menulis puisi sejak 2018. Silakan ngobrol lewat WA/IG, saya balas dengan puisi pendek 😊</p>
+      <p>Seorang perantau kata yang tinggal di bumi. Menulis puisi sejak 2018. Silakan ngobrol lewat WA/IG, atau kirim pesan rahasia di atas! 😊</p>
     </div>
   </main>
 
@@ -661,9 +1197,13 @@
     <p>© 2026 pribadiblog — aksara pengelana <i class="fas fa-heart" style="color: #f43f5e;"></i></p>
   </footer>
 
-  <!-- theme toggle script -->
+  <!-- Notifikasi Container -->
+  <div id="notificationContainer"></div>
+
+  <!-- Script -->
   <script>
     (function() {
+      // ==================== THEME TOGGLE ====================
       const themeToggle = document.getElementById('themeToggle');
       const body = document.body;
 
@@ -692,15 +1232,328 @@
         }
       });
 
-      // ganti foto dan link ig/wa di html sesuai user (static bisa diedit langsung)
+      // ==================== RATING SYSTEM ====================
+      let ratingData = {
+        5: 96,
+        4: 19,
+        3: 8,
+        2: 4,
+        1: 1
+      };
+
+      const calculateAverage = () => {
+        let total = 0;
+        let votes = 0;
+        for (let i = 1; i <= 5; i++) {
+          total += i * ratingData[i];
+          votes += ratingData[i];
+        }
+        return votes > 0 ? (total / votes).toFixed(1) : "0.0";
+      };
+
+      const updateRatingDisplay = () => {
+        const total = Object.values(ratingData).reduce((a, b) => a + b, 0);
+        
+        document.getElementById('averageRating').textContent = calculateAverage();
+        document.getElementById('totalVotes').textContent = `dari ${total} penilai`;
+
+        for (let i = 1; i <= 5; i++) {
+          const percent = total > 0 ? (ratingData[i] / total * 100).toFixed(1) : 0;
+          document.getElementById(`bar${i}`).style.width = `${percent}%`;
+          document.getElementById(`percent${i}`).textContent = `${percent}%`;
+        }
+      };
+
+      updateRatingDisplay();
+
+      const stars = document.querySelectorAll('.star');
+      const ratingMessage = document.getElementById('messageText');
+      
+      const hasRated = localStorage.getItem('hasRated');
+      
+      const updateStars = (rating) => {
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.className = 'fas fa-star star active';
+          } else {
+            star.className = 'far fa-star star';
+          }
+        });
+      };
+
+      if (hasRated) {
+        const lastRating = parseInt(localStorage.getItem('lastRating')) || 0;
+        updateStars(lastRating);
+        ratingMessage.textContent = 'Terima kasih sudah memberikan penilaian! 💜';
+      }
+
+      stars.forEach(star => {
+        star.addEventListener('click', function() {
+          const rating = parseInt(this.getAttribute('data-rating'));
+          
+          const hasRated = localStorage.getItem('hasRated');
+          
+          if (hasRated) {
+            ratingMessage.textContent = 'Kamu sudah memberi penilaian sebelumnya. Terima kasih! ⭐';
+            const lastRating = parseInt(localStorage.getItem('lastRating')) || 0;
+            updateStars(lastRating);
+          } else {
+            ratingData[rating] += 1;
+            
+            localStorage.setItem('hasRated', 'true');
+            localStorage.setItem('lastRating', rating.toString());
+            
+            updateStars(rating);
+            updateRatingDisplay();
+            
+            const messages = [
+              'Aduh, masih banyak yang perlu diperbaiki. Makasih masukannya! 🌱',
+              'Makasih, akan kuperbaiki tulisanku! 📝',
+              'Terima kasih apresiasinya! Semangat menulis! ✨',
+              'Senang sekali kamu suka! Makasih banyak! 💫',
+              'Wah, terima kasih! Bintang 5 membuat hariku cerah! 🌟'
+            ];
+            ratingMessage.textContent = messages[rating - 1];
+          }
+        });
+
+        star.addEventListener('mouseenter', function() {
+          if (!localStorage.getItem('hasRated')) {
+            const rating = parseInt(this.getAttribute('data-rating'));
+            stars.forEach((s, index) => {
+              if (index < rating) {
+                s.className = 'fas fa-star star active';
+              } else {
+                s.className = 'far fa-star star';
+              }
+            });
+          }
+        });
+
+        star.addEventListener('mouseleave', function() {
+          if (!localStorage.getItem('hasRated')) {
+            stars.forEach(s => {
+              s.className = 'far fa-star star';
+            });
+          } else {
+            const lastRating = parseInt(localStorage.getItem('lastRating')) || 0;
+            updateStars(lastRating);
+          }
+        });
+      });
+
+      document.getElementById('resetRating').addEventListener('click', function() {
+        ratingData = {
+          5: 96,
+          4: 19,
+          3: 8,
+          2: 4,
+          1: 1
+        };
+        
+        localStorage.removeItem('hasRated');
+        localStorage.removeItem('lastRating');
+        
+        stars.forEach(star => {
+          star.className = 'far fa-star star';
+        });
+        
+        updateRatingDisplay();
+        ratingMessage.textContent = 'Terima kasih sudah membaca puisi-puisiku!';
+        
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = 'scale(1)';
+        }, 200);
+      });
+
+      // ==================== PRIVATE MESSAGES SYSTEM ====================
+      
+      // PASSWORD (ganti sesuai keinginan)
+      const SECRET_PASSWORD = "rahasia123"; // <-- GANTI PASSWORD DISINI
+      
+      // Data pesan
+      let messages = [];
+      
+      // Load messages dari localStorage
+      const loadMessages = () => {
+        const savedMessages = localStorage.getItem('privateMessages');
+        if (savedMessages) {
+          messages = JSON.parse(savedMessages);
+        } else {
+          // Data dummy untuk contoh
+          messages = [
+            {
+              id: Date.now() - 86400000,
+              content: "Hai, aku suka banget sama puisi senja kamu!",
+              date: new Date(Date.now() - 86400000).toLocaleDateString('id-ID'),
+            },
+            {
+              id: Date.now() - 172800000,
+              content: "Makasih udah berbagi karya. Kamu hebat!",
+              date: new Date(Date.now() - 172800000).toLocaleDateString('id-ID'),
+            }
+          ];
+          localStorage.setItem('privateMessages', JSON.stringify(messages));
+        }
+        updateTotalMessages();
+      };
+
+      // Update total pesan
+      const updateTotalMessages = () => {
+        document.getElementById('totalMessages').textContent = messages.length;
+      };
+
+      // Render messages (hanya untuk pemilik)
+      const renderPrivateMessages = () => {
+        const grid = document.getElementById('messagesGrid');
+        
+        if (messages.length === 0) {
+          grid.innerHTML = `
+            <div class="empty-messages">
+              <i class="fas fa-envelope-open"></i>
+              <p>Belum ada pesan rahasia nih...</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Urutkan dari yang terbaru
+        const sortedMessages = [...messages].sort((a, b) => b.id - a.id);
+
+        grid.innerHTML = sortedMessages.map(msg => `
+          <div class="message-card" data-id="${msg.id}">
+            <div class="message-header">
+              <span class="message-author">
+                <i class="fas fa-user-secret"></i> Pengirim Rahasia
+              </span>
+              <span class="message-date">${msg.date}</span>
+            </div>
+            <div class="message-content">
+              ${msg.content}
+            </div>
+            <div class="message-footer">
+              <div class="delete-message" onclick="deleteMessage(${msg.id})">
+                <i class="fas fa-trash-alt"></i> Hapus
+              </div>
+            </div>
+          </div>
+        `).join('');
+      };
+
+      // Cek password
+      window.checkPassword = () => {
+        const password = document.getElementById('passwordInput').value;
+        if (password === SECRET_PASSWORD) {
+          // Password benar
+          document.getElementById('passwordPrompt').style.display = 'none';
+          document.getElementById('messagesArea').style.display = 'block';
+          renderPrivateMessages();
+          
+          // Simpan status login di session (agar tidak perlu login ulang)
+          sessionStorage.setItem('isOwner', 'true');
+        } else {
+          alert('Password salah!');
+        }
+      };
+
+      // Logout
+      window.logout = () => {
+        document.getElementById('passwordPrompt').style.display = 'block';
+        document.getElementById('messagesArea').style.display = 'none';
+        document.getElementById('passwordInput').value = '';
+        sessionStorage.removeItem('isOwner');
+      };
+
+      // Hapus pesan
+      window.deleteMessage = (id) => {
+        if (confirm('Hapus pesan ini?')) {
+          messages = messages.filter(m => m.id !== id);
+          localStorage.setItem('privateMessages', JSON.stringify(messages));
+          renderPrivateMessages();
+          updateTotalMessages();
+          showNotification('Pesan berhasil dihapus');
+        }
+      };
+
+      // Cek session login
+      const checkSession = () => {
+        if (sessionStorage.getItem('isOwner') === 'true') {
+          document.getElementById('passwordPrompt').style.display = 'none';
+          document.getElementById('messagesArea').style.display = 'block';
+          renderPrivateMessages();
+        }
+      };
+
+      // Fungsi show notification
+      const showNotification = (message) => {
+        const container = document.getElementById('notificationContainer');
+        const notif = document.createElement('div');
+        notif.className = 'message-notification';
+        notif.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+        container.appendChild(notif);
+        
+        setTimeout(() => {
+          notif.remove();
+        }, 3000);
+      };
+
+      // Event listener untuk form pesan (pengiriman publik)
+      const messageForm = document.getElementById('messageForm');
+      const messageInput = document.getElementById('messageInput');
+      const charCount = document.getElementById('charCount');
+
+      // Update karakter counter
+      messageInput.addEventListener('input', () => {
+        const count = messageInput.value.length;
+        charCount.textContent = `${count}/500`;
+      });
+
+      // Submit form (pengunjung kirim pesan)
+      messageForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const content = messageInput.value.trim();
+        
+        if (content) {
+          const newMessage = {
+            id: Date.now(),
+            content: content,
+            date: new Date().toLocaleDateString('id-ID'),
+          };
+          
+          messages.push(newMessage);
+          localStorage.setItem('privateMessages', JSON.stringify(messages));
+          
+          // Reset form
+          messageInput.value = '';
+          charCount.textContent = '0/500';
+          
+          // Update total jika sedang login
+          updateTotalMessages();
+          if (sessionStorage.getItem('isOwner') === 'true') {
+            renderPrivateMessages();
+          }
+          
+          // Tampilkan notifikasi
+          showNotification('Pesan rahasia terkirim! ✨');
+        }
+      });
+
+      // Load messages dan cek session
+      loadMessages();
+      checkSession();
+
     })();
   </script>
-  <!-- petunjuk: ganti foto di line 235, link wa/ig di line 246-249, dan isi puisi sesuai karyamu -->
+  
+  <!-- Petunjuk -->
+  <!-- 
+    GANTI PASSWORD: cari variable SECRET_PASSWORD = "rahasia123" (line ~1042)
+    GANTI FOTO: di line avatar-frame (src)
+    GANTI LINK WA: di social-links (href)
+    GANTI LINK IG: di social-links (href)
+    GANTI ISI PUISI: di poem-content
+  -->
 </body>
 </html>
-
-
-
-
-
-
