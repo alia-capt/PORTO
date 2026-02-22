@@ -22,7 +22,7 @@
       --surface: #ffffff;
       --text-primary: #1e293b;
       --text-secondary: #475569;
-      --accent: #8b5cf6;        /* vibrant purple */
+      --accent: #8b5cf6;
       --accent-soft: #ede9fe;
       --border: #e2e8f0;
       --card-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.05), 0 8px 15px -6px rgba(0, 0, 0, 0.02);
@@ -34,6 +34,7 @@
       --star-active: #fbbf24;
       --star-inactive: #cbd5e1;
       --message-bg: #f8fafc;
+      --secret-highlight: #8b5cf6;
     }
 
     body.dark {
@@ -53,6 +54,7 @@
       --star-active: #fbbf24;
       --star-inactive: #4b5563;
       --message-bg: #1e293b;
+      --secret-highlight: #fbbf24;
     }
 
     body {
@@ -63,7 +65,7 @@
       overflow-x: hidden;
     }
 
-    /* dekorasi animasi latar (partikel / floating) */
+    /* floating shapes */
     .floating-shapes {
       position: fixed;
       top: 0;
@@ -384,6 +386,30 @@
       margin-bottom: 0.3rem;
       border-bottom: 2px dotted var(--border);
       padding-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .poem-title:hover {
+      color: var(--secret-highlight);
+      transform: scale(1.02);
+      text-shadow: 0 0 10px var(--glow);
+    }
+
+    /* Secret code hint - sangat samar */
+    .secret-hint {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      opacity: 0.2;
+      text-align: right;
+      margin-top: 0.5rem;
+      font-style: italic;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .poem-book:hover .secret-hint {
+      opacity: 0.4;
     }
 
     .poem-date {
@@ -569,11 +595,7 @@
       transform: scale(1.05);
     }
 
-    /* ANONYMOUS MESSAGES SECTION - PRIVATE VERSION */
-    .messages-section {
-      margin: 4rem 0;
-    }
-
+    /* ANONYMOUS MESSAGES - TERSEMBUNYI DALAM PUISI */
     .message-input-card {
       background: var(--surface);
       border-radius: 2rem;
@@ -671,13 +693,71 @@
       color: var(--accent);
     }
 
-    /* PRIVATE MESSAGES VIEW - Hanya muncul setelah password benar */
-    .private-view {
+    /* SECRET MODAL - TERSEMBUNYI SAMPAI DIKLIK */
+    .secret-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .secret-modal.active {
+      display: flex;
+    }
+
+    .secret-modal-content {
       background: var(--surface);
       border-radius: 2rem;
       padding: 2rem;
-      border: 1px solid var(--border);
-      box-shadow: var(--card-shadow);
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      border: 3px solid var(--accent);
+      box-shadow: 0 30px 60px var(--glow);
+      animation: modalPop 0.3s ease;
+    }
+
+    @keyframes modalPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .secret-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .secret-modal-header h2 {
+      font-size: 1.8rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .secret-modal-header i {
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .secret-modal-header i:hover {
+      color: #ef4444;
+      transform: scale(1.1);
     }
 
     .password-prompt {
@@ -1000,7 +1080,6 @@
     <!-- profile card -->
     <div class="profile-card">
       <div class="avatar-frame">
-        <!-- GANTI DENGAN FOTO KAMU -->
         <img src="https://github.com/user-attachments/assets/45f5e82a-8eb7-4bc6-ba5a-b2f1804742dc?w=150&h=150&fit=crop&auto=format" alt="foto profile">
       </div>
       <div class="intro">
@@ -1020,14 +1099,14 @@
       </div>
     </div>
 
-    <!-- GALLERY PUISI MODEL BUKU -->
+    <!-- GALLERY PUISI MODEL BUKU - DENGAN RAHASIA -->
     <div class="poetry-section">
       <div class="section-title">
         <i class="fas fa-book-open"></i>
         <span>aksara hati · catatan kecil</span>
       </div>
       <div class="poetry-grid">
-        <!-- puisi 1 -->
+        <!-- puisi 1 - Biasa -->
         <div class="poem-book">
           <div class="poem-title">senja di batas laut</div>
           <div class="poem-date">februari, 2026</div>
@@ -1038,18 +1117,22 @@
             <p>menanti kapal yang tak pernah datang.</p>
           </div>
         </div>
-        <!-- puisi 2 -->
-        <div class="poem-book">
-          <div class="poem-title">segelas teh</div>
-          <div class="poem-date">januari, 2026</div>
+        
+        <!-- puisi 2 - INI ADALAH RAHASIA (Klik judulnya) -->
+        <div class="poem-book" id="secretPoem">
+          <div class="poem-title" id="secretTrigger">✦ bisikan ✦</div>
+          <div class="poem-date">---</div>
           <div class="poem-content">
-            <p>pahit yang setia menemani pagi,</p>
-            <p>aromanya merambat sunyi.</p>
-            <p>ku tulis surat pada asap,</p>
-            <p>tentang rasa yang tak sempat di ucap.</p>
+            <p>ada yang tersembunyi</p>
+            <p>di antara aksara</p>
+            <p>seperti embun di ujung ilalang</p>
+            <p>hanya yang peka yang tahu</p>
           </div>
+          <!-- Petunjuk sangat samar -->
+          <div class="secret-hint">⌘</div>
         </div>
-        <!-- puisi 3 -->
+        
+        <!-- puisi 3 - Biasa -->
         <div class="poem-book">
           <div class="poem-title">hujan di ibu kota</div>
           <div class="poem-date">desember, 2025</div>
@@ -1135,26 +1218,26 @@
       </button>
     </div>
 
-    <!-- ANONYMOUS MESSAGES SECTION - PRIVATE VERSION -->
+    <!-- ANONYMOUS MESSAGES - TAMPAK SEPERTI FORM BIASA -->
     <div class="messages-section">
       <div class="section-title">
         <i class="fas fa-envelope-open-text"></i>
-        <span>kirim pesan rahasia (hanya aku yang bisa baca)</span>
+        <span>kirim pesan · tulis sesuatu</span>
       </div>
 
-      <!-- Form Input Pesan (Publik) -->
+      <!-- Form Input Pesan (Terlihat Normal) -->
       <div class="message-input-card">
         <form class="message-form" id="messageForm">
           <textarea 
             id="messageInput" 
-            placeholder="Tulis pesan rahasiamu di sini... (hanya pemilik blog yang bisa membaca)"
+            placeholder="Tulis pesanmu di sini..."
             maxlength="500"
             required
           ></textarea>
           <div class="message-actions">
             <button type="submit" class="btn-send">
               <i class="fas fa-paper-plane"></i>
-              Kirim Pesan Rahasia
+              Kirim Pesan
             </button>
             <div class="message-counter">
               <i class="fas fa-feather-alt"></i>
@@ -1164,38 +1247,34 @@
         </form>
       </div>
 
-      <!-- Private View (Hanya untuk Pemilik) -->
-      <div class="private-view" id="privateView">
-        <div class="password-prompt" id="passwordPrompt">
-          <i class="fas fa-lock"></i>
-          <h3>Area Pesan Rahasia</h3>
-          <p style="color: var(--text-secondary); margin-bottom: 1rem;">Masukkan password untuk melihat pesan dari pengunjung</p>
-          <div class="password-input-group">
-            <input type="password" id="passwordInput" placeholder="Password..." onkeypress="if(event.key==='Enter') checkPassword()">
-            <button onclick="checkPassword()">Buka</button>
-          </div>
-        </div>
-
-        <div id="messagesArea" style="display: none;">
-          <div class="message-stats">
-            <span><i class="fas fa-envelope"></i> Total Pesan: <span id="totalMessages">0</span></span>
-            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Kunci Lagi</button>
-          </div>
-          <div class="messages-grid" id="messagesGrid"></div>
-        </div>
-      </div>
+      <!-- Tidak ada pesan yang ditampilkan di sini -->
+      <!-- Semua pesan masuk ke tempat rahasia -->
     </div>
 
     <!-- about me -->
     <div class="about-card">
       <h2><i class="fas fa-feather-alt" style="color: var(--accent);"></i> tentang musafir </h2>
-      <p>Seorang perantau kata yang tinggal di bumi. Menulis puisi sejak 2018. Silakan ngobrol lewat WA/IG, atau kirim pesan rahasia di atas! 😊</p>
+      <p>Seorang perantau kata yang tinggal di bumi. Menulis puisi sejak 2018. Silakan ngobrol lewat WA/IG.</p>
     </div>
   </main>
 
   <footer class="footer">
     <p>© 2026 pribadiblog — aksara pengelana <i class="fas fa-heart" style="color: #f43f5e;"></i></p>
   </footer>
+
+  <!-- SECRET MODAL - INI TEMPAT PESAN RAHASIA -->
+  <div class="secret-modal" id="secretModal">
+    <div class="secret-modal-content">
+      <div class="secret-modal-header">
+        <h2><i class="fas fa-feather-alt"></i> ruang rahasia</h2>
+        <i class="fas fa-times" onclick="closeSecretModal()"></i>
+      </div>
+      
+      <div id="secretContent">
+        <!-- Password prompt akan muncul di sini -->
+      </div>
+    </div>
+  </div>
 
   <!-- Notifikasi Container -->
   <div id="notificationContainer"></div>
@@ -1396,93 +1475,109 @@
           ];
           localStorage.setItem('privateMessages', JSON.stringify(messages));
         }
-        updateTotalMessages();
       };
 
-      // Update total pesan
-      const updateTotalMessages = () => {
-        document.getElementById('totalMessages').textContent = messages.length;
-      };
-
-      // Render messages (hanya untuk pemilik)
-      const renderPrivateMessages = () => {
-        const grid = document.getElementById('messagesGrid');
+      // Render messages untuk modal
+      const renderSecretMessages = () => {
+        const content = document.getElementById('secretContent');
         
-        if (messages.length === 0) {
-          grid.innerHTML = `
-            <div class="empty-messages">
-              <i class="fas fa-envelope-open"></i>
-              <p>Belum ada pesan rahasia nih...</p>
+        if (sessionStorage.getItem('isOwner') === 'true') {
+          // Sudah login - tampilkan pesan
+          let messagesHtml = `
+            <div class="message-stats">
+              <span><i class="fas fa-envelope"></i> Total Pesan: ${messages.length}</span>
+              <button class="logout-btn" onclick="logoutFromSecret()"><i class="fas fa-sign-out-alt"></i> Keluar</button>
             </div>
+            <div class="messages-grid" id="secretMessagesGrid">
           `;
-          return;
-        }
-
-        // Urutkan dari yang terbaru
-        const sortedMessages = [...messages].sort((a, b) => b.id - a.id);
-
-        grid.innerHTML = sortedMessages.map(msg => `
-          <div class="message-card" data-id="${msg.id}">
-            <div class="message-header">
-              <span class="message-author">
-                <i class="fas fa-user-secret"></i> Pengirim Rahasia
-              </span>
-              <span class="message-date">${msg.date}</span>
-            </div>
-            <div class="message-content">
-              ${msg.content}
-            </div>
-            <div class="message-footer">
-              <div class="delete-message" onclick="deleteMessage(${msg.id})">
-                <i class="fas fa-trash-alt"></i> Hapus
+          
+          if (messages.length === 0) {
+            messagesHtml += `
+              <div class="empty-messages">
+                <i class="fas fa-envelope-open"></i>
+                <p>Belum ada pesan rahasia nih...</p>
+              </div>
+            `;
+          } else {
+            const sortedMessages = [...messages].sort((a, b) => b.id - a.id);
+            sortedMessages.forEach(msg => {
+              messagesHtml += `
+                <div class="message-card" data-id="${msg.id}">
+                  <div class="message-header">
+                    <span class="message-author">
+                      <i class="fas fa-user-secret"></i> Pengirim Rahasia
+                    </span>
+                    <span class="message-date">${msg.date}</span>
+                  </div>
+                  <div class="message-content">
+                    ${msg.content}
+                  </div>
+                  <div class="message-footer">
+                    <div class="delete-message" onclick="deleteSecretMessage(${msg.id})">
+                      <i class="fas fa-trash-alt"></i> Hapus
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
+          }
+          
+          messagesHtml += '</div>';
+          content.innerHTML = messagesHtml;
+        } else {
+          // Belum login - tampilkan form password
+          content.innerHTML = `
+            <div class="password-prompt">
+              <i class="fas fa-lock"></i>
+              <h3>ruang rahasia</h3>
+              <p style="color: var(--text-secondary); margin-bottom: 1rem;">masukkan kunci untuk membuka</p>
+              <div class="password-input-group">
+                <input type="password" id="secretPasswordInput" placeholder="kunci..." onkeypress="if(event.key==='Enter') checkSecretPassword()">
+                <button onclick="checkSecretPassword()">Buka</button>
               </div>
             </div>
-          </div>
-        `).join('');
-      };
-
-      // Cek password
-      window.checkPassword = () => {
-        const password = document.getElementById('passwordInput').value;
-        if (password === SECRET_PASSWORD) {
-          // Password benar
-          document.getElementById('passwordPrompt').style.display = 'none';
-          document.getElementById('messagesArea').style.display = 'block';
-          renderPrivateMessages();
-          
-          // Simpan status login di session (agar tidak perlu login ulang)
-          sessionStorage.setItem('isOwner', 'true');
-        } else {
-          alert('Password salah!');
+          `;
         }
       };
 
-      // Logout
-      window.logout = () => {
-        document.getElementById('passwordPrompt').style.display = 'block';
-        document.getElementById('messagesArea').style.display = 'none';
-        document.getElementById('passwordInput').value = '';
-        sessionStorage.removeItem('isOwner');
+      // Fungsi global untuk cek password
+      window.checkSecretPassword = () => {
+        const password = document.getElementById('secretPasswordInput').value;
+        if (password === SECRET_PASSWORD) {
+          sessionStorage.setItem('isOwner', 'true');
+          renderSecretMessages();
+          showNotification('Akses diterima ✨');
+        } else {
+          alert('Kunci salah!');
+        }
       };
 
-      // Hapus pesan
-      window.deleteMessage = (id) => {
+      // Fungsi global untuk logout
+      window.logoutFromSecret = () => {
+        sessionStorage.removeItem('isOwner');
+        renderSecretMessages();
+        showNotification('Ruangan terkunci');
+      };
+
+      // Fungsi global untuk hapus pesan
+      window.deleteSecretMessage = (id) => {
         if (confirm('Hapus pesan ini?')) {
           messages = messages.filter(m => m.id !== id);
           localStorage.setItem('privateMessages', JSON.stringify(messages));
-          renderPrivateMessages();
-          updateTotalMessages();
+          renderSecretMessages();
           showNotification('Pesan berhasil dihapus');
         }
       };
 
-      // Cek session login
-      const checkSession = () => {
-        if (sessionStorage.getItem('isOwner') === 'true') {
-          document.getElementById('passwordPrompt').style.display = 'none';
-          document.getElementById('messagesArea').style.display = 'block';
-          renderPrivateMessages();
-        }
+      // Fungsi global untuk buka modal
+      window.openSecretModal = () => {
+        document.getElementById('secretModal').classList.add('active');
+        renderSecretMessages();
+      };
+
+      // Fungsi global untuk tutup modal
+      window.closeSecretModal = () => {
+        document.getElementById('secretModal').classList.remove('active');
       };
 
       // Fungsi show notification
@@ -1503,13 +1598,11 @@
       const messageInput = document.getElementById('messageInput');
       const charCount = document.getElementById('charCount');
 
-      // Update karakter counter
       messageInput.addEventListener('input', () => {
         const count = messageInput.value.length;
         charCount.textContent = `${count}/500`;
       });
 
-      // Submit form (pengunjung kirim pesan)
       messageForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -1525,35 +1618,38 @@
           messages.push(newMessage);
           localStorage.setItem('privateMessages', JSON.stringify(messages));
           
-          // Reset form
           messageInput.value = '';
           charCount.textContent = '0/500';
           
-          // Update total jika sedang login
-          updateTotalMessages();
-          if (sessionStorage.getItem('isOwner') === 'true') {
-            renderPrivateMessages();
-          }
-          
-          // Tampilkan notifikasi
-          showNotification('Pesan rahasia terkirim! ✨');
+          showNotification('Pesan terkirim! ✨');
         }
       });
 
-      // Load messages dan cek session
+      // Event listener untuk puisi rahasia (trigger)
+      document.getElementById('secretTrigger').addEventListener('click', function(e) {
+        e.stopPropagation();
+        openSecretModal();
+      });
+
+      // Klik di luar modal untuk tutup
+      document.getElementById('secretModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeSecretModal();
+        }
+      });
+
+      // Load messages
       loadMessages();
-      checkSession();
 
     })();
   </script>
   
   <!-- Petunjuk -->
   <!-- 
-    GANTI PASSWORD: cari variable SECRET_PASSWORD = "rahasia123" (line ~1042)
+    GANTI PASSWORD: cari variable SECRET_PASSWORD = "rahasia123" (line ~1194)
+    CARA AKSES: Klik judul puisi "✦ bisikan ✦" di gallery
     GANTI FOTO: di line avatar-frame (src)
-    GANTI LINK WA: di social-links (href)
-    GANTI LINK IG: di social-links (href)
-    GANTI ISI PUISI: di poem-content
+    GANTI LINK WA/IG: di social-links (href)
   -->
 </body>
 </html>
