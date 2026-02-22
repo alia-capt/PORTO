@@ -581,7 +581,7 @@
       transform: scale(1.05);
     }
 
-    /* MESSAGES SECTION - WITH REQUIRED NAME FIELD */
+    /* MESSAGES SECTION - WITH REQUIRED NAME ONLY */
     .messages-section {
       margin: 4rem 0;
     }
@@ -614,15 +614,8 @@
       gap: 1.2rem;
     }
 
-    .form-row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
     .form-group {
-      flex: 1;
-      min-width: 200px;
+      width: 100%;
     }
 
     .form-group input {
@@ -630,8 +623,8 @@
       background: var(--message-bg);
       border: 2px solid var(--border);
       border-radius: 50px;
-      padding: 0.8rem 1.2rem;
-      font-size: 0.95rem;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
       color: var(--text-primary);
       transition: all 0.3s;
       font-family: 'Inter', sans-serif;
@@ -735,6 +728,7 @@
       display: none;
       align-items: center;
       gap: 0.3rem;
+      margin-left: 1rem;
     }
 
     .error-message.show {
@@ -1106,9 +1100,6 @@
       .rating-stars { gap: 0.5rem; }
       .star { font-size: 2.5rem; }
       .messages-grid { grid-template-columns: 1fr; }
-      .form-row {
-        flex-direction: column;
-      }
     }
   </style>
 </head>
@@ -1269,31 +1260,27 @@
       </button>
     </div>
 
-    <!-- MESSAGES SECTION - WITH REQUIRED NAME FIELD -->
+    <!-- MESSAGES SECTION - WITH REQUIRED NAME ONLY -->
     <div class="messages-section">
       <div class="section-title">
         <i class="fas fa-envelope-open-text"></i>
-        <span>tinggalkan pesan · darimu untukku</span>
+        <span>tinggalkan pesan · dengan nama</span>
       </div>
 
-      <!-- Form Input Pesan dengan Nama Wajib -->
+      <!-- Form Input Pesan dengan Nama Wajib (tanpa asal) -->
       <div class="message-input-card">
         <form class="message-form" id="messageForm">
-          <div class="form-row">
-            <div class="form-group">
-              <input 
-                type="text" 
-                id="senderName" 
-                placeholder="tertanda (namamu)" 
-                maxlength="50"
-                required
-              >
-              <div class="error-message" id="nameError">
-                <i class="fas fa-exclamation-circle"></i>
-                Nama harus diisi
-              </div>
-            </div>
-            <div class="form-group">
+          <div class="form-group">
+            <input 
+              type="text" 
+              id="senderName" 
+              placeholder="Namamu (wajib diisi)" 
+              maxlength="50"
+              required
+            >
+            <div class="error-message" id="nameError">
+              <i class="fas fa-exclamation-circle"></i>
+              Nama harus diisi
             </div>
           </div>
           
@@ -1453,10 +1440,10 @@
             updateRatingDisplay();
             
             const messages = [
-              'Aduh, masih banyak yang perlu diperbaiki. Makasih untuk masukannya! 🌱',
+              'Aduh, masih banyak yang perlu diperbaiki. Makasih masukannya! 🌱',
               'Makasih, akan kuperbaiki tulisanku! 📝',
-              'Terima kasih apresiasinya! ✨',
-              'Senang sekali! Makasih banyak! 💫',
+              'Terima kasih apresiasinya! Semangat menulis! ✨',
+              'Senang sekali kamu suka! Makasih banyak! 💫',
               'Wah, terima kasih! Bintang 5 membuat hariku cerah! 🌟'
             ];
             ratingMessage.textContent = messages[rating - 1];
@@ -1513,12 +1500,12 @@
         }, 200);
       });
 
-      // ==================== PRIVATE MESSAGES SYSTEM WITH REQUIRED NAME ====================
+      // ==================== PRIVATE MESSAGES SYSTEM WITH REQUIRED NAME ONLY ====================
       
       // PASSWORD (ganti sesuai keinginan)
-      const SECRET_PASSWORD = "bulan"; // <-- GANTI PASSWORD DISINI
+      const SECRET_PASSWORD = "rahasia123"; // <-- GANTI PASSWORD DISINI
       
-      // Data pesan dengan field nama dan lokasi
+      // Data pesan dengan field nama (tanpa lokasi)
       let messages = [];
       
       // Load messages dari localStorage
@@ -1532,14 +1519,12 @@
             {
               id: Date.now() - 86400000,
               name: "Dina",
-              location: "Bandung",
               content: "Hai, aku suka banget sama puisi senja kamu!",
               date: new Date(Date.now() - 86400000).toLocaleDateString('id-ID'),
             },
             {
               id: Date.now() - 172800000,
               name: "Budi",
-              location: "Jakarta",
               content: "Makasih udah berbagi karya. Kamu hebat!",
               date: new Date(Date.now() - 172800000).toLocaleDateString('id-ID'),
             }
@@ -1572,14 +1557,11 @@
           } else {
             const sortedMessages = [...messages].sort((a, b) => b.id - a.id);
             sortedMessages.forEach(msg => {
-              // Tampilkan nama (pasti ada karena required) dan lokasi jika ada
-              const locationDisplay = msg.location && msg.location.trim() ? ` · ${msg.location}` : '';
-              
               messagesHtml += `
                 <div class="message-card" data-id="${msg.id}">
                   <div class="message-header">
                     <span class="message-author">
-                      <i class="fas fa-user-circle"></i> ${msg.name}${locationDisplay}
+                      <i class="fas fa-user-circle"></i> ${msg.name}
                     </span>
                     <span class="message-date">${msg.date}</span>
                   </div>
@@ -1667,11 +1649,10 @@
         }, 3000);
       };
 
-      // Event listener untuk form pesan (dengan nama wajib)
+      // Event listener untuk form pesan (dengan nama wajib, tanpa lokasi)
       const messageForm = document.getElementById('messageForm');
       const messageInput = document.getElementById('messageInput');
       const senderName = document.getElementById('senderName');
-      const senderLocation = document.getElementById('senderLocation');
       const nameError = document.getElementById('nameError');
       const charCount = document.getElementById('charCount');
 
@@ -1703,7 +1684,6 @@
           const newMessage = {
             id: Date.now(),
             name: senderName.value.trim(),
-            location: senderLocation.value.trim(),
             content: content,
             date: new Date().toLocaleDateString('id-ID'),
           };
@@ -1714,7 +1694,6 @@
           // Reset form
           messageInput.value = '';
           senderName.value = '';
-          senderLocation.value = '';
           charCount.textContent = '0/500';
           
           showNotification('Pesan terkirim! ✨');
@@ -1742,10 +1721,10 @@
   
   <!-- Petunjuk -->
   <!-- 
-    GANTI PASSWORD: cari SECRET_PASSWORD (line ~1360)
+    GANTI PASSWORD: cari SECRET_PASSWORD (line ~1265)
     CARA AKSES RAHASIA: Klik judul puisi "✦ bisikan ✦"
-    NAMA W AJIB: Pengirim harus mengisi nama, tidak bisa kosong
+    NAMA WAJIB: Pengirim harus mengisi nama, tidak bisa kosong
+    (Field asal kota sudah dihapus)
   -->
 </body>
 </html>
-
