@@ -1273,7 +1273,7 @@
     <div class="messages-section">
       <div class="section-title">
         <i class="fas fa-envelope-open-text"></i>
-        <span>tinggalkan pesan · dengan nama</span>
+        <span>tinggalkan pesan · darimu untukku</span>
       </div>
 
       <!-- Form Input Pesan dengan Nama Wajib -->
@@ -1284,7 +1284,7 @@
               <input 
                 type="text" 
                 id="senderName" 
-                placeholder="Namamu (wajib diisi)" 
+                placeholder="tertanda (namamu)" 
                 maxlength="50"
                 required
               >
@@ -1294,12 +1294,6 @@
               </div>
             </div>
             <div class="form-group">
-              <input 
-                type="text" 
-                id="senderLocation" 
-                placeholder="Dari mana? (opsional)" 
-                maxlength="50"
-              >
             </div>
           </div>
           
@@ -1459,10 +1453,10 @@
             updateRatingDisplay();
             
             const messages = [
-              'Aduh, masih banyak yang perlu diperbaiki. Makasih masukannya! 🌱',
+              'Aduh, masih banyak yang perlu diperbaiki. Makasih untuk masukannya! 🌱',
               'Makasih, akan kuperbaiki tulisanku! 📝',
-              'Terima kasih apresiasinya! Semangat menulis! ✨',
-              'Senang sekali kamu suka! Makasih banyak! 💫',
+              'Terima kasih apresiasinya! ✨',
+              'Senang sekali! Makasih banyak! 💫',
               'Wah, terima kasih! Bintang 5 membuat hariku cerah! 🌟'
             ];
             ratingMessage.textContent = messages[rating - 1];
@@ -1522,7 +1516,7 @@
       // ==================== PRIVATE MESSAGES SYSTEM WITH REQUIRED NAME ====================
       
       // PASSWORD (ganti sesuai keinginan)
-      const SECRET_PASSWORD = "rahasia123"; // <-- GANTI PASSWORD DISINI
+      const SECRET_PASSWORD = "bulan"; // <-- GANTI PASSWORD DISINI
       
       // Data pesan dengan field nama dan lokasi
       let messages = [];
@@ -1754,3 +1748,4 @@
   -->
 </body>
 </html>
+
