@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ini aku</title>
-  <!-- Font Awesome 6 (free) + Google Fonts untuk kesan sastra -->
+  <!-- Font Awesome 6 (free) + Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
   <style>
@@ -396,22 +396,6 @@
       text-shadow: 0 0 10px var(--glow);
     }
 
-    /* Secret code hint - sangat samar */
-    .secret-hint {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      opacity: 0.2;
-      text-align: right;
-      margin-top: 0.5rem;
-      font-style: italic;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
-    .poem-book:hover .secret-hint {
-      opacity: 0.4;
-    }
-
     .poem-date {
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -595,7 +579,11 @@
       transform: scale(1.05);
     }
 
-    /* ANONYMOUS MESSAGES - TERSEMBUNYI DALAM PUISI */
+    /* MESSAGES SECTION - WITH NAME FIELD */
+    .messages-section {
+      margin: 4rem 0;
+    }
+
     .message-input-card {
       background: var(--surface);
       border-radius: 2rem;
@@ -622,6 +610,40 @@
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: var(--message-bg);
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--glow);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.6;
     }
 
     .message-form textarea {
@@ -693,7 +715,7 @@
       color: var(--accent);
     }
 
-    /* SECRET MODAL - TERSEMBUNYI SAMPAI DIKLIK */
+    /* SECRET MODAL */
     .secret-modal {
       display: none;
       position: fixed;
@@ -1054,6 +1076,9 @@
       .rating-stars { gap: 0.5rem; }
       .star { font-size: 2.5rem; }
       .messages-grid { grid-template-columns: 1fr; }
+      .form-row {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -1099,14 +1124,14 @@
       </div>
     </div>
 
-    <!-- GALLERY PUISI MODEL BUKU - DENGAN RAHASIA -->
+    <!-- GALLERY PUISI MODEL BUKU -->
     <div class="poetry-section">
       <div class="section-title">
         <i class="fas fa-book-open"></i>
         <span>aksara hati · catatan kecil</span>
       </div>
       <div class="poetry-grid">
-        <!-- puisi 1 - Biasa -->
+        <!-- puisi 1 -->
         <div class="poem-book">
           <div class="poem-title">senja di batas laut</div>
           <div class="poem-date">februari, 2026</div>
@@ -1117,20 +1142,8 @@
             <p>menanti kapal yang tak pernah datang.</p>
           </div>
         </div>
-
-        <!-- puisi 2 -->
-        <div class="poem-book">
-          <div class="poem-title">segelas teh</div>
-          <div class="poem-date">januari, 2026</div>
-          <div class="poem-content">
-            <p>pahit yang setia menemani pagi,</p>
-            <p>aromanya merambat sunyi.</p>
-            <p>ku tulis surat pada asap,</p>
-            <p>tentang rasa yang tak sempat di ucap.</p>
-          </div>
-        </div>
         
-        <!-- puisi 2 - INI ADALAH RAHASIA (Klik judulnya) -->
+        <!-- puisi 2 - RAHASIA -->
         <div class="poem-book" id="secretPoem">
           <div class="poem-title" id="secretTrigger">✦ bisikan ✦</div>
           <div class="poem-date">---</div>
@@ -1140,11 +1153,9 @@
             <p>seperti embun di ujung ilalang</p>
             <p>hanya yang peka yang tahu</p>
           </div>
-          <!-- Petunjuk sangat samar -->
-          <div class="secret-hint">⌘</div>
         </div>
         
-        <!-- puisi 3 - Biasa -->
+        <!-- puisi 3 -->
         <div class="poem-book">
           <div class="poem-title">hujan di ibu kota</div>
           <div class="poem-date">desember, 2025</div>
@@ -1166,7 +1177,6 @@
         <i class="fas fa-star"></i>
       </div>
       
-      <!-- Bintang Rating -->
       <div class="rating-stars" id="ratingStars">
         <i class="far fa-star star" data-rating="1"></i>
         <i class="far fa-star star" data-rating="2"></i>
@@ -1175,7 +1185,6 @@
         <i class="far fa-star star" data-rating="5"></i>
       </div>
 
-      <!-- Statistik Rating -->
       <div class="rating-stats">
         <div>
           <div class="average-rating" id="averageRating">4.2</div>
@@ -1230,22 +1239,42 @@
       </button>
     </div>
 
-    <!-- ANONYMOUS MESSAGES - TAMPAK SEPERTI FORM BIASA -->
+    <!-- MESSAGES SECTION - WITH NAME FIELD -->
     <div class="messages-section">
       <div class="section-title">
         <i class="fas fa-envelope-open-text"></i>
-        <span>kirim pesan · tulis sesuatu</span>
+        <span>tinggalkan pesan · dengan nama</span>
       </div>
 
-      <!-- Form Input Pesan (Terlihat Normal) -->
+      <!-- Form Input Pesan dengan Nama -->
       <div class="message-input-card">
         <form class="message-form" id="messageForm">
+          <div class="form-row">
+            <div class="form-group">
+              <input 
+                type="text" 
+                id="senderName" 
+                placeholder="Namamu (boleh anonim)" 
+                maxlength="50"
+              >
+            </div>
+            <div class="form-group">
+              <input 
+                type="text" 
+                id="senderLocation" 
+                placeholder="Dari mana? (opsional)" 
+                maxlength="50"
+              >
+            </div>
+          </div>
+          
           <textarea 
             id="messageInput" 
             placeholder="Tulis pesanmu di sini..."
             maxlength="500"
             required
           ></textarea>
+          
           <div class="message-actions">
             <button type="submit" class="btn-send">
               <i class="fas fa-paper-plane"></i>
@@ -1258,15 +1287,12 @@
           </div>
         </form>
       </div>
-
-      <!-- Tidak ada pesan yang ditampilkan di sini -->
-      <!-- Semua pesan masuk ke tempat rahasia -->
     </div>
 
     <!-- about me -->
     <div class="about-card">
       <h2><i class="fas fa-feather-alt" style="color: var(--accent);"></i> tentang musafir </h2>
-      <p>Seorang perantau kata yang tinggal di bumi. Menulis puisi sejak 2018. Silakan ngobrol lewat WA/IG.</p>
+      <p>Seorang perantau kata yang tinggal di bumi. Menulis puisi sejak 2018. Silakan ngobrol lewat WA/IG, atau tinggalkan pesan dengan nama di atas.</p>
     </div>
   </main>
 
@@ -1274,7 +1300,7 @@
     <p>© 2026 pribadiblog — aksara pengelana <i class="fas fa-heart" style="color: #f43f5e;"></i></p>
   </footer>
 
-  <!-- SECRET MODAL - INI TEMPAT PESAN RAHASIA -->
+  <!-- SECRET MODAL - TEMPAT PESAN RAHASIA -->
   <div class="secret-modal" id="secretModal">
     <div class="secret-modal-content">
       <div class="secret-modal-header">
@@ -1400,8 +1426,8 @@
             const messages = [
               'Aduh, masih banyak yang perlu diperbaiki. Makasih masukannya! 🌱',
               'Makasih, akan kuperbaiki tulisanku! 📝',
-              'Terima kasih apresiasinya! Semangat menulis! ✨',
-              'Senang sekali kamu suka! Makasih banyak! 💫',
+              'Terima kasih apresiasinya! ✨',
+              'Senang sekali! Makasih banyak! 💫',
               'Wah, terima kasih! Bintang 5 membuat hariku cerah! 🌟'
             ];
             ratingMessage.textContent = messages[rating - 1];
@@ -1458,12 +1484,12 @@
         }, 200);
       });
 
-      // ==================== PRIVATE MESSAGES SYSTEM ====================
+      // ==================== PRIVATE MESSAGES SYSTEM WITH NAMES ====================
       
       // PASSWORD (ganti sesuai keinginan)
       const SECRET_PASSWORD = "rahasia123"; // <-- GANTI PASSWORD DISINI
       
-      // Data pesan
+      // Data pesan dengan field nama dan lokasi
       let messages = [];
       
       // Load messages dari localStorage
@@ -1476,11 +1502,15 @@
           messages = [
             {
               id: Date.now() - 86400000,
+              name: "Dina",
+              location: "Bandung",
               content: "Hai, aku suka banget sama puisi senja kamu!",
               date: new Date(Date.now() - 86400000).toLocaleDateString('id-ID'),
             },
             {
               id: Date.now() - 172800000,
+              name: "Anonim",
+              location: "",
               content: "Makasih udah berbagi karya. Kamu hebat!",
               date: new Date(Date.now() - 172800000).toLocaleDateString('id-ID'),
             }
@@ -1507,17 +1537,21 @@
             messagesHtml += `
               <div class="empty-messages">
                 <i class="fas fa-envelope-open"></i>
-                <p>Belum ada pesan rahasia nih...</p>
+                <p>Belum ada pesan nih...</p>
               </div>
             `;
           } else {
             const sortedMessages = [...messages].sort((a, b) => b.id - a.id);
             sortedMessages.forEach(msg => {
+              // Tampilkan nama dan lokasi jika ada
+              const nameDisplay = msg.name && msg.name.trim() ? msg.name : 'Anonim';
+              const locationDisplay = msg.location && msg.location.trim() ? ` · ${msg.location}` : '';
+              
               messagesHtml += `
                 <div class="message-card" data-id="${msg.id}">
                   <div class="message-header">
                     <span class="message-author">
-                      <i class="fas fa-user-secret"></i> Pengirim Rahasia
+                      <i class="fas fa-user-circle"></i> ${nameDisplay}${locationDisplay}
                     </span>
                     <span class="message-date">${msg.date}</span>
                   </div>
@@ -1605,9 +1639,11 @@
         }, 3000);
       };
 
-      // Event listener untuk form pesan (pengiriman publik)
+      // Event listener untuk form pesan (dengan nama dan lokasi)
       const messageForm = document.getElementById('messageForm');
       const messageInput = document.getElementById('messageInput');
+      const senderName = document.getElementById('senderName');
+      const senderLocation = document.getElementById('senderLocation');
       const charCount = document.getElementById('charCount');
 
       messageInput.addEventListener('input', () => {
@@ -1623,6 +1659,8 @@
         if (content) {
           const newMessage = {
             id: Date.now(),
+            name: senderName.value.trim() || "Anonim",
+            location: senderLocation.value.trim(),
             content: content,
             date: new Date().toLocaleDateString('id-ID'),
           };
@@ -1630,7 +1668,10 @@
           messages.push(newMessage);
           localStorage.setItem('privateMessages', JSON.stringify(messages));
           
+          // Reset form
           messageInput.value = '';
+          senderName.value = '';
+          senderLocation.value = '';
           charCount.textContent = '0/500';
           
           showNotification('Pesan terkirim! ✨');
@@ -1658,11 +1699,9 @@
   
   <!-- Petunjuk -->
   <!-- 
-    GANTI PASSWORD: cari variable SECRET_PASSWORD = "rahasia123" (line ~1194)
-    CARA AKSES: Klik judul puisi "✦ bisikan ✦" di gallery
-    GANTI FOTO: di line avatar-frame (src)
-    GANTI LINK WA/IG: di social-links (href)
+    GANTI PASSWORD: cari SECRET_PASSWORD (line ~1095)
+    CARA AKSES RAHASIA: Klik judul puisi "✦ bisikan ✦"
+    FITUR BARU: Pengirim bisa isi nama dan asal kota
   -->
 </body>
 </html>
-
